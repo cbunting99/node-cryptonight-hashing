@@ -11,10 +11,10 @@
     },
     "dependencies": {
         "bindings": "*",
-        "nan": "^2.14.2",
-        "bigint-buffer": "^1.1.5",
-        "blake2": "^4.0.2",
-        "uint64be": "^3.0.0"
+        "nan": "*",
+        "bigint-buffer": "*",
+        "blake2": "*",
+        "uint64be": "*"
     },
     "keywords": [
         "cryptonight",
