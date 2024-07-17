@@ -324,7 +324,7 @@ NAN_METHOD(cryptonight) {
     v8::Local<v8::Value> returnValue = Nan::CopyBuffer(output, 32).ToLocalChecked();
     info.GetReturnValue().Set(returnValue);
 }
-/*
+
 NAN_METHOD(cryptonight_light) {
     if (info.Length() < 1) return THROW_ERROR_EXCEPTION("You must provide one argument.");
 
@@ -353,39 +353,7 @@ NAN_METHOD(cryptonight_light) {
     v8::Local<v8::Value> returnValue = Nan::CopyBuffer(output, 32).ToLocalChecked();
     info.GetReturnValue().Set(returnValue);
 }
-*/
-NAN_METHOD(cryptonight_light) {
-    if (info.Length() < 1) return THROW_ERROR_EXCEPTION("You must provide one argument.");
 
-    Local<Object> target = info[0]->ToObject();
-    if (!Buffer::HasInstance(target)) return THROW_ERROR_EXCEPTION("Argument 1 should be a buffer object.");
-
-    int variant = 0;
-    uint64_t height = 0;
-
-    if (info.Length() >= 2) {
-        if (!info[1]->IsNumber()) return THROW_ERROR_EXCEPTION("Argument 2 should be a number");
-        variant = Nan::To<int>(info[1]).FromMaybe(0);
-    }
-
-    if (info.Length() >= 3) {
-        if (!info[2]->IsNumber()) return THROW_ERROR_EXCEPTION("Argument 3 should be a number");
-        height = Nan::To<unsigned int>(info[2]).FromMaybe(0);
-    }
-
-    char output[32];
-    init_ctx();
-    switch (variant) {
-       case 0:  cryptonight_single_hash<xmrig::CRYPTONIGHT_LIGHT, SOFT_AES, xmrig::VARIANT_0>(reinterpret_cast<const uint8_t*>(Buffer::Data(target)), Buffer::Length(target), reinterpret_cast<uint8_t*>(output), &ctx, height);
-                break;
-       case 1:  cryptonight_single_hash<xmrig::CRYPTONIGHT_LIGHT, SOFT_AES, xmrig::VARIANT_1>(reinterpret_cast<const uint8_t*>(Buffer::Data(target)), Buffer::Length(target), reinterpret_cast<uint8_t*>(output), &ctx, height);
-                break;
-       default: cryptonight_single_hash<xmrig::CRYPTONIGHT_LIGHT, SOFT_AES, xmrig::VARIANT_1>(reinterpret_cast<const uint8_t*>(Buffer::Data(target)), Buffer::Length(target), reinterpret_cast<uint8_t*>(output), &ctx, height);
-    }
-
-    v8::Local<v8::Value> returnValue = Nan::CopyBuffer(output, 32).ToLocalChecked();
-    info.GetReturnValue().Set(returnValue);
-}
 
 NAN_METHOD(cryptonight_heavy) {
     if (info.Length() < 1) return THROW_ERROR_EXCEPTION("You must provide one argument.");
